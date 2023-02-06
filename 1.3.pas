@@ -1,24 +1,35 @@
-﻿uses crt;
-var m: array [1..45] of integer;
-    i,imax,imin,buf: integer;
+﻿type
+  tList = record
+    Count : Integer;
+    L : array [1..100] of Integer;
+  end;
+
+procedure CreateList(var List : tList);
 begin
-imin:=1; imax:=1;
-writeln('Исходный массив M');
-for i:=1 to 45 do
-    begin
-    m[i]:=random(101)-50;
-    write(m[i]:3);
-    if m[i]>m[imax] then imax:=i;
-    if m[i]<m[imin] then imin:=i;
-    end;
-writeln('');
-writeln('Минимальный  элемент = ',m[imin]:4,' под индексом ',imin);
-writeln('Максимальный элемент = ',m[imax]:4,' под индексом ',imax);
-buf:=m[imin];
-m[imin]:=m[imax];
-m[imax]:=buf;
-writeln('Преобразованный массив M');
-for i:=1 to 45 do
-    write(m[i]:3);
-readkey
+  List.Count := 0;
+end;
+procedure AddList(n : Integer; var List : tList);
+begin
+  Inc(List.Count);
+  List.L[List.Count] := n;
+end;
+procedure OutList(i : Integer; List : tList);
+begin
+  Write(List.L[i]:3);
+end;
+var
+  L : tList;
+  i : Integer;
+begin
+  CreateList(L);
+  Randomize;
+  for i := 1 to 10 do
+    AddList(Random(100), L);
+  for i := 1 to 10 do
+    OutList(i, L);
+  WriteLn;
+  for i := 1 to 10 do
+    if Not Odd(L.L[i]) then
+      OutList(i, L);
+   WriteLn;
 end.
